@@ -877,6 +877,7 @@ namespace MixedRealityExtension.App
 		[CommandHandler(typeof(CreateFromLibrary))]
 		private async void OnCreateFromLibrary(CreateFromLibrary payload, Action onCompleteCallback)
 		{
+			/*
 			try
 			{
 				var actors = await _assetLoader.CreateFromLibrary(payload.ResourceId, payload.Actor?.ParentId);
@@ -887,11 +888,41 @@ namespace MixedRealityExtension.App
 				SendCreateActorResponse(payload, failureMessage: e.ToString(), onCompleteCallback: onCompleteCallback);
 				GD.PushError(e.ToString());
 			}
+			*/
+			try
+			{
+				var actors = _assetLoader.CreateEmpty(payload.Actor?.ParentId);
+				ProcessCreatedActors(payload, actors, onCompleteCallback);
+
+				foreach (var actor in actors)
+				{
+					var pinchSliderThumb = AssetLoader.PackedToolkitScene[typeof(PinchSliderThumb)].Instance<PinchSliderThumb>();
+					actor.AddChild(pinchSliderThumb);
+
+					var nearInteractionGrabbable = new NearInteractionGrabbable();
+					actor.AddChild(nearInteractionGrabbable);
+sliderThumb = actor;
+					var behaviorComponent = actor.GetOrCreateActorComponent<BehaviorComponent>();
+					var context = BehaviorContextFactory.CreateContext(Behaviors.BehaviorType.Button, actor, new WeakReference<MixedRealityExtensionApp>(this));
+					if (context == null)
+					{
+						GD.PushError($"Failed to create behavior for behavior type BehaviorType.Button");
+					}
+					behaviorComponent.SetBehaviorContext(context);
+				}
+			}
+			catch (Exception e)
+			{
+				SendCreateActorResponse(payload, failureMessage: e.ToString(), onCompleteCallback: onCompleteCallback);
+				GD.PushError(e.ToString());
+			}
+
 		}
 
 		[CommandHandler(typeof(CreateEmpty))]
 		private void OnCreateEmpty(CreateEmpty payload, Action onCompleteCallback)
 		{
+			/*
 			try
 			{
 				var actors = _assetLoader.CreateEmpty(payload.Actor?.ParentId);
@@ -902,34 +933,46 @@ namespace MixedRealityExtension.App
 				SendCreateActorResponse(payload, failureMessage: e.ToString(), onCompleteCallback: onCompleteCallback);
 				GD.PushError(e.ToString());
 			}
-		}
+			*/
 
-		[CommandHandler(typeof(CreateFromPrefab))]
-		private void OnCreateFromPrefab(CreateFromPrefab payload, Action onCompleteCallback)
-		{
 			try
 			{
-				var curGeneration = generation;
-				AssetManager.OnSet(payload.PrefabId, prefab =>
+				var actors = _assetLoader.CreateEmpty(payload.Actor?.ParentId);
+				ProcessCreatedActors(payload, actors, onCompleteCallback);
+
+				foreach (var actor in actors)
 				{
-					if (this == null || _conn == null || !_conn.IsActive || generation != curGeneration) return;
-					if (prefab.Asset != null)
+					var pinchSlider = AssetLoader.PackedToolkitScene[typeof(PinchSlider)].Instance<PinchSlider>();
+					actor.AddChild(pinchSlider);
+
+					var nearInteractionGrabbable = new NearInteractionGrabbable();
+					actor.AddChild(nearInteractionGrabbable);
+
+					var behaviorComponent = actor.GetOrCreateActorComponent<BehaviorComponent>();
+					var context = BehaviorContextFactory.CreateContext(Behaviors.BehaviorType.Button, actor, new WeakReference<MixedRealityExtensionApp>(this));
+					if (context == null)
 					{
-						var createdActors = _assetLoader.CreateFromPrefab(payload.PrefabId, payload.Actor?.ParentId, payload.CollisionLayer);
-						ProcessCreatedActors(payload, createdActors, onCompleteCallback);
+						GD.PushError($"Failed to create behavior for behavior type BehaviorType.Button");
 					}
-					else
-					{
-						var message = $"Prefab {payload.PrefabId} failed to load, canceling actor creation";
-						SendCreateActorResponse(payload, failureMessage: message, onCompleteCallback: onCompleteCallback);
-					}
-				});
+					behaviorComponent.SetBehaviorContext(context);
+
+					var thumb = FindActor(sliderThumb.Id) as Actor;
+					thumb.GetParent<Node>().RemoveChild(thumb);
+					pinchSlider.ThumbActor = thumb;
+					thumb.ParentId = actor.Id;
+				}
 			}
 			catch (Exception e)
 			{
 				SendCreateActorResponse(payload, failureMessage: e.ToString(), onCompleteCallback: onCompleteCallback);
-				GD.Print(e);
+				GD.PushError(e.ToString());
 			}
+		}
+private Actor sliderThumb;
+		[CommandHandler(typeof(CreateFromPrefab))]
+		private void OnCreateFromPrefab(CreateFromPrefab payload, Action onCompleteCallback)
+		{
+
 		}
 
 		[CommandHandler(typeof(CreateFromToolkitButton))]
