@@ -943,7 +943,12 @@ sliderThumb = actor;
 				foreach (var actor in actors)
 				{
 					var pinchSlider = AssetLoader.PackedToolkitScene[typeof(PinchSlider)].Instance<PinchSlider>();
+
+					var thumb = FindActor(sliderThumb.Id) as Actor;
+					pinchSlider.ThumbActor = thumb;
+					thumb.ParentId = actor.Id;
 					actor.AddChild(pinchSlider);
+
 
 					var nearInteractionGrabbable = new NearInteractionGrabbable();
 					actor.AddChild(nearInteractionGrabbable);
@@ -955,11 +960,6 @@ sliderThumb = actor;
 						GD.PushError($"Failed to create behavior for behavior type BehaviorType.Button");
 					}
 					behaviorComponent.SetBehaviorContext(context);
-
-					var thumb = FindActor(sliderThumb.Id) as Actor;
-					thumb.GetParent<Node>().RemoveChild(thumb);
-					pinchSlider.ThumbActor = thumb;
-					thumb.ParentId = actor.Id;
 				}
 			}
 			catch (Exception e)
@@ -1009,6 +1009,10 @@ private Actor sliderThumb;
 				foreach (var actor in actors)
 				{
 					var pinchSlider = AssetLoader.PackedToolkitScene[typeof(PinchSlider)].Instance<PinchSlider>();
+					var thumb = FindActor(payload.ThumbId) as Actor;
+					thumb.GetParent<Node>().RemoveChild(thumb);
+					pinchSlider.ThumbActor = thumb;
+					thumb.ParentId = actor.Id;
 					actor.AddChild(pinchSlider);
 
 					var nearInteractionGrabbable = new NearInteractionGrabbable();
@@ -1022,10 +1026,6 @@ private Actor sliderThumb;
 					}
 					behaviorComponent.SetBehaviorContext(context);
 
-					var thumb = FindActor(payload.ThumbId) as Actor;
-					thumb.GetParent<Node>().RemoveChild(thumb);
-					pinchSlider.ThumbActor = thumb;
-					thumb.ParentId = actor.Id;
 				}
 			}
 			catch (Exception e)

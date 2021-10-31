@@ -32,10 +32,12 @@ namespace Assets.Scripts.Tools
 
 		public Vector3 GetNearGraspPoint(InputSource inputSource)
 		{
-			Spatial indexTip = inputSource.Hand.FindNode("IndexTip") as Spatial;
-			Spatial thumbTip = inputSource.Hand.FindNode("ThumbTip") as Spatial;
+			//FIXME
+			var skeleton = inputSource.Hand.GetNode<Skeleton>("R_Hand_MRTK_Rig2/Skeleton");
+			var thumbTransform = inputSource.Hand.GetNode<Spatial>("R_Hand_MRTK_Rig2/Skeleton/Physical Bone R_Thumb_3").GlobalTransform;
+			var indexTransform = inputSource.Hand.GetNode<Spatial>("R_Hand_MRTK_Rig2/Skeleton/Physical Bone R_Pointer_3").GlobalTransform;
 
-			return 0.5f * (indexTip.GlobalTransform.origin + thumbTip.GlobalTransform.origin);
+			return 0.5f * (indexTransform.origin + thumbTransform.origin);
 		}
 
 		internal Spatial FindTarget(InputSource inputSource, out Vector3? hitPoint)
@@ -97,15 +99,18 @@ namespace Assets.Scripts.Tools
 
 		protected override void UpdateTool(InputSource inputSource)
 		{
-			var handler = IMixedRealityEventHandler.FindEventHandler<IMixedRealityPointerHandler>(currentGrabbableActor);
-			if (!isSelectPressed)
+			if (currentGrabbableActor != null)
 			{
+				var handler = IMixedRealityEventHandler.FindEventHandler<IMixedRealityPointerHandler>(currentGrabbableActor);
 				if (inputSource.PinchChaged)
 				{
 					if (inputSource.IsPinching)
 					{
-						isSelectPressed = true;
-						handler?.OnPointerDown(new MixedRealityPointerEventData(this, hitPoint));
+						if (!isSelectPressed)
+						{
+							isSelectPressed = true;
+							handler?.OnPointerDown(new MixedRealityPointerEventData(this, hitPoint));
+						}
 					}
 					else
 					{
@@ -113,10 +118,11 @@ namespace Assets.Scripts.Tools
 						handler?.OnPointerUp(new MixedRealityPointerEventData(this, hitPoint));
 					}
 				}
-			}
-			else
-			{
-				handler?.OnPointerDragged(new MixedRealityPointerEventData(this, hitPoint));
+				else if (isSelectPressed)
+				{
+					handler?.OnPointerDragged(new MixedRealityPointerEventData(this, hitPoint));
+				}
+
 			}
 		}
 

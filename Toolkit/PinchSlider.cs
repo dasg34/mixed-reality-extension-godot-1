@@ -32,9 +32,6 @@ namespace Microsoft.MixedReality.Toolkit.UI
 				if (value != null)
 				{
 					thumbActor = value;
-					AddChild(thumbActor);
-					UpdateThumbActor();
-					InitializeSliderThumb();
 				}
 			}
 		}
@@ -49,7 +46,7 @@ namespace Microsoft.MixedReality.Toolkit.UI
 		/// </summary>
 		public bool IsTouchable { get; set; }
 
-		private bool snapToPosition;
+		private bool snapToPosition = true;
 
 		/// <summary>
 		/// Determines whether or not this slider snaps to the designated position on the slider
@@ -68,7 +65,7 @@ namespace Microsoft.MixedReality.Toolkit.UI
 		/// <summary>
 		/// Used to control the slider on the track when snapToPosition is false
 		/// </summary>
-		public CollisionShape ThumbCollisionShape => thumbActor.GetNode<CollisionShape>("Mesh/Area/CollisionShape");
+		public CollisionShape ThumbCollisionShape => thumbActor.GetNode<CollisionShape>("PinchSliderThumb/Mesh/Area/CollisionShape");
 
 		/// <summary>
 		/// Used to determine the position we snap the slider do when snapToPosition is true
@@ -238,8 +235,8 @@ namespace Microsoft.MixedReality.Toolkit.UI
 
 		#endregion
 
-		#region Unity methods
-		protected virtual void Start()
+		#region Node Virtual Methods
+		public override void _Ready()
 		{
 			if (UseSliderStepDivisions)
 			{
@@ -248,11 +245,18 @@ namespace Microsoft.MixedReality.Toolkit.UI
 
 			if (thumbActor == null)
 			{
-				throw new Exception($"Slider thumb on Spatial {Name} is not specified. Did you forget to set it?");
+				//throw new Exception($"Slider thumb on Spatial {Name} is not specified. Did you forget to set it?");
 			}
-
+			thumbActor.GetParent<Node>().RemoveChild(thumbActor);
+			AddChild(thumbActor);
+			UpdateThumbActor();
+			InitializeSliderThumb();
+			trackMesh = GetNode<MeshInstance>("Mesh");
 			SnapToPosition = snapToPosition;
 			InitializeSliderThumb();
+
+			UpdateThumbActor();
+			UpdateTrackMesh();
 			//OnValueUpdated.Invoke(new SliderEventData(sliderValue, sliderValue, null, this));
 		}
 
@@ -505,7 +509,7 @@ namespace Microsoft.MixedReality.Toolkit.UI
 		}
 
 		#endregion IMixedRealityTouchHandler
-
+/*
 		#region Node Virtual Methods
 		public override void _Ready()
 		{
@@ -515,5 +519,7 @@ namespace Microsoft.MixedReality.Toolkit.UI
 		}
 
 		#endregion
+
+		*/
 	}
 }

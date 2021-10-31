@@ -173,11 +173,15 @@ namespace Assets.Scripts.User
 			{
 				var animationPlayer = Hand.GetNode<AnimationPlayer>("AnimationPlayer");
 				animationPlayer?.Play("Pinch");
+
+				IsPinching = true;
 			}
 			else if (Input.IsActionJustReleased("Fire2"))
 			{
 				var animationPlayer = Hand.GetNode<AnimationPlayer>("AnimationPlayer");
 				animationPlayer?.PlayBackwards("Pinch");
+
+				IsPinching = false;
 			}
 		}
 	}

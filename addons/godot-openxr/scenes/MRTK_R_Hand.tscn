@@ -163,7 +163,58 @@ tracks/21/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0.2, 1, 0, 0
 [node name="MRTK_R_Hand" instance=ExtResource( 1 )]
 
 [node name="R_Hand_MRTK_Rig2" parent="." index="0"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.00478703, -0.00622308, -0.00957398 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.0042479, -0.00781748, 0.00955884 )
+
+[node name="Physical Bone R_Wrist" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="1"]
+transform = Transform( -0.258444, -0.258267, 0.930862, -0.804536, 0.590924, -0.0594188, -0.534723, -0.764269, -0.360506, -0.105051, -0.113693, -0.0751548 )
+
+[node name="Physical Bone R_Middle_1" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="2"]
+transform = Transform( -0.144412, -0.012869, 0.989431, -0.0945813, 0.995513, -0.00085628, -0.984987, -0.0937055, -0.144981, -0.0547655, -0.0411721, -0.0368265 )
+
+[node name="Physical Bone R_Middle_2" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="3"]
+transform = Transform( -0.0876138, 0.139812, 0.98629, 0.818957, 0.573788, -0.00858788, -0.567122, 0.806982, -0.164772, -0.0409154, -0.0370121, 0.00461427 )
+
+[node name="Physical Bone R_Middle_3" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="4"]
+transform = Transform( -0.0650275, -0.0182924, 0.997716, 0.983924, 0.165477, 0.0671625, -0.166328, 0.986044, 0.00723768, -0.0356669, -0.0604162, 0.0178907 )
+
+[node name="Physical Bone R_Pointer_1" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="5"]
+transform = Transform( -0.274134, -0.0322168, 0.961151, -0.77476, 0.599491, -0.200878, -0.56973, -0.799732, -0.189301, -0.0301167, -0.0412175, -0.0403813 )
+
+[node name="Physical Bone R_Pointer_2" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="6"]
+transform = Transform( -0.236274, 0.217559, 0.947017, -0.600493, 0.733534, -0.318335, -0.763926, -0.643892, -0.042671, -0.0130004, -0.0117737, -0.0218442 )
+
+[node name="Physical Bone R_Pointer_3" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="7"]
+transform = Transform( -0.166869, 0.0433053, 0.985026, -0.53783, 0.833319, -0.127747, -0.826374, -0.551094, -0.115764, -0.00509956, 0.000164472, -0.00269805 )
+
+[node name="Physical Bone R_Ring_1" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="8"]
+transform = Transform( -0.13965, -0.0943022, 0.9857, 0.0745175, 0.991628, 0.105427, -0.987393, 0.0881745, -0.131453, -0.0713795, -0.0500552, -0.0311282 )
+
+[node name="Physical Bone R_Ring_2" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="9"]
+transform = Transform( -0.219912, 0.0845057, 0.971852, 0.971887, 0.10487, 0.210801, -0.0841038, 0.990889, -0.105192, -0.0596278, -0.0537064, 0.0062106 )
+
+[node name="Physical Bone R_Ring_3" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="10"]
+transform = Transform( -0.177063, 0.0404023, 0.983369, 0.897326, -0.40381, 0.178161, 0.404293, 0.91395, 0.0352455, -0.0510735, -0.0785808, 0.00668228 )
+
+[node name="Physical Bone R_Thumb_1" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="11"]
+transform = Transform( -0.814294, 0.56884, 0.115525, -0.307991, -0.254727, -0.916655, -0.492001, -0.782007, 0.38262, -0.0220578, -0.0856912, -0.0748595 )
+
+[node name="Physical Bone R_Thumb_2" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="12"]
+transform = Transform( -0.614903, 0.776342, 0.138519, -0.396575, -0.152592, -0.905231, -0.681632, -0.611563, 0.401707, 0.00395492, -0.0752837, -0.0594304 )
+
+[node name="Physical Bone R_Thumb_3" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="13"]
+transform = Transform( -0.743089, 0.664111, 0.0823166, -0.290442, -0.209246, -0.933734, -0.602878, -0.717756, 0.348374, 0.0262683, -0.0680281, -0.033022 )
+
+[node name="Physical Bone R_WristPadding" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="14"]
+transform = Transform( -0.0263831, -0.61972, 0.78438, -0.732709, 0.545762, 0.406549, -0.680031, -0.563995, -0.468473, -0.0885853, -0.102603, -0.048001 )
+
+[node name="Physical Bone R_Pinky_1" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="15"]
+transform = Transform( -0.194255, -0.251655, 0.948121, 0.0576056, 0.961936, 0.267125, -0.979257, 0.106508, -0.172364, -0.0842672, -0.0640418, -0.0249613 )
+
+[node name="Physical Bone R_Pinky_2" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="16"]
+transform = Transform( -0.344372, -0.0312721, 0.938315, 0.895801, 0.288173, 0.338375, -0.280978, 0.957068, -0.0712252, -0.0739695, -0.0654649, 0.00376985 )
+
+[node name="Physical Bone R_Pinky_3" type="Spatial" parent="R_Hand_MRTK_Rig2/Skeleton" index="17"]
+transform = Transform( -0.508969, -0.0306949, 0.860239, 0.806605, -0.365962, 0.464179, 0.300566, 0.930124, 0.211022, -0.064892, -0.0850201, 0.00711723 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 anims/Pinch = SubResource( 1 )
