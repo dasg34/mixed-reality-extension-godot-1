@@ -10,6 +10,8 @@ namespace Assets.Scripts.User
 	public class InputSource : Camera
 	{
 		private Tool _currentTool;
+		private bool isPinching;
+		private bool pinchChaged;
 
 		internal MeshInstance RayCastMesh;
 		internal Spatial PokePointer;
@@ -20,6 +22,30 @@ namespace Assets.Scripts.User
 		public Tool CurrentTool => _currentTool;
 
 		public Spatial Hand { get; private set; }
+
+		public bool IsPinching
+		{
+			get => isPinching;
+			set
+			{
+				PinchChaged = isPinching != value;
+				isPinching = value;
+			}
+		}
+
+		public bool PinchChaged
+		{
+			get
+			{
+				var ret = pinchChaged;
+				if (pinchChaged) pinchChaged = false;
+				return ret;
+			}
+			private set
+			{
+				pinchChaged = value;
+			}
+		}
 
 		public static readonly Guid UserId = new Guid();
 
